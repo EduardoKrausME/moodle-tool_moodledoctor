@@ -30,7 +30,9 @@ use local_ai_bridge\api;
  * Builds and sends read-only diagnostic prompts through local_ai_bridge.
  */
 class ai_service {
-    /** Bridge purpose. */
+    /**
+    * Bridge purpose.
+    */
     public const PURPOSE = 'moodledoctor-diagnose';
 
     /**

@@ -28,10 +28,14 @@ namespace tool_moodledoctor;
  * Defence-in-depth sanitizer for every value that may be sent to AI.
  */
 class sanitizer {
-    /** Redaction marker. */
+    /**
+    * Redaction marker.
+    */
     public const REDACTED = '[REDACTED]';
 
-    /** Maximum length accepted for one manually supplied field. */
+    /**
+    * Maximum length accepted for one manually supplied field.
+    */
     public const MAX_MANUAL_LENGTH = 100000;
 
     /**
