@@ -66,10 +66,11 @@ final class sanitizer_test extends advanced_testcase {
     }
 
     /**
-     * @dataProvider secret_text_provider
-     * @param string $input Input.
-     * @param string $secret Secret that must disappear.
-     * @return void
+     * Method test_text_secrets_are_removed.
+     *
+     * @param string $input Parameter input.
+     * @param string $secret Parameter secret.
+     * @return void Return value.
      */
     public function test_text_secrets_are_removed(string $input, string $secret): void {
         $clean = sanitizer::sanitize_text($input);

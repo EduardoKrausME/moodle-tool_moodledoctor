@@ -31,7 +31,9 @@ use advanced_testcase;
  */
 final class preview_store_test extends advanced_testcase {
     /**
-     * @return void
+     * Method setUp.
+     *
+     * @return void Return value.
      */
     protected function setUp(): void {
         parent::setUp();
@@ -42,7 +44,9 @@ final class preview_store_test extends advanced_testcase {
     }
 
     /**
-     * @return void
+     * Method test_preview_is_sanitized_and_consumed_once.
+     *
+     * @return void Return value.
      */
     public function test_preview_is_sanitized_and_consumed_once(): void {
         $nonce = preview_store::put([
