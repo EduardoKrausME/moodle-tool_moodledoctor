@@ -140,7 +140,7 @@ class diagnostic_collector {
             try {
                 $label .= ' — ' . $plugin->displayname;
             } catch (Throwable $e) {
-                // Component remains a stable fallback label.
+                $label = $component;
             }
             $choices[$component] = $label;
         }
@@ -543,7 +543,11 @@ class diagnostic_collector {
         $statusproblems = 0;
         $dependencyproblems = 0;
         foreach ($plugins as $plugin) {
-            if (!in_array($plugin['status'], [core_plugin_manager::PLUGIN_STATUS_UPTODATE, core_plugin_manager::PLUGIN_STATUS_NODB], true)) {
+            $healthy = [
+                core_plugin_manager::PLUGIN_STATUS_UPTODATE,
+                core_plugin_manager::PLUGIN_STATUS_NODB,
+            ];
+            if (!in_array($plugin['status'], $healthy, true)) {
                 $statusproblems++;
             }
             foreach ($plugin['dependencies'] as $dependency) {
