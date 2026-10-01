@@ -28,7 +28,7 @@ $plugin->component = 'tool_moodledoctor';
 $plugin->version = 2026093000;
 $plugin->release = '0.1.0';
 $plugin->requires = 2024100700;
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [
     'local_ai_bridge' => 2026093001,
 ];
