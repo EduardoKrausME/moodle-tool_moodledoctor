@@ -28,6 +28,8 @@ use advanced_testcase;
 
 /**
  * Security tests for redaction before AI calls.
+ *
+ * @covers \\tool_moodledoctor\\sanitizer
  */
 final class sanitizer_test extends advanced_testcase {
     /**
@@ -68,6 +70,7 @@ final class sanitizer_test extends advanced_testcase {
     /**
      * Method test_text_secrets_are_removed.
      *
+     * @dataProvider secret_text_provider
      * @param string $input Parameter input.
      * @param string $secret Parameter secret.
      * @return void Return value.
