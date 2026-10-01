@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die;
+
 $ADMIN->add('tools', new admin_externalpage(
     'tool_moodledoctor',
     get_string('pluginname', 'tool_moodledoctor'),
