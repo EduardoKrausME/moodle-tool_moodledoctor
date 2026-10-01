@@ -1,30 +1,7 @@
 # Moodle Doctor (`tool_moodledoctor`)
 
-Moodle Doctor is a read-only administration tool for Moodle 4.5+ that collects deterministic diagnostic facts first and
+Moodle Doctor is a read-only administration tool for Moodle that collects deterministic diagnostic facts first and
 uses AI only to interpret those facts. It never applies fixes automatically.
-
-## Dependency
-
-This plugin requires:
-
-```php
-$plugin->dependencies = [
-    'local_ai_bridge' => 2026093001,
-];
-```
-
-All AI calls go exclusively through:
-
-```php
-\local_ai_bridge\api::generate('moodledoctor-diagnose', $messages);
-```
-
-The plugin contains no provider API key, endpoint, model configuration, direct OpenAI/Gemini/Claude/Ollama integration,
-or fallback HTTP client.
-
-The current administrator must also be allowed to use `local_ai_bridge` and must resolve to an enabled
-tenant/purpose/route according to the bridge configuration. Configure a bridge purpose with the
-idnumber `moodledoctor-diagnose` before using AI interpretation.
 
 ## Features
 
@@ -125,42 +102,3 @@ tool/moodledoctor:use
 It is defined at system context and has no default role archetype assignment, so site administrators have access by
 default while ordinary roles do not. If an institution intentionally delegates the capability, the admin navigation page
 can also be used by that role.
-
-## Installation
-
-Install the plugin as:
-
-```text
-admin/tool/moodledoctor
-```
-
-Then complete the Moodle upgrade and configure `local_ai_bridge` with an enabled `moodledoctor-diagnose` purpose and
-route.
-
-## Tests
-
-The PHPUnit suite includes focused security tests for:
-
-- `password=` and quoted password values;
-- `token=`, access token, refresh token and API key forms;
-- `Authorization` headers;
-- standalone `Bearer` credentials;
-- cookies and session IDs;
-- `sesskey`;
-- database DSNs;
-- URLs with embedded credentials;
-- CLI credential arguments;
-- recursive structured-data sanitization;
-- sanitizer idempotence;
-- exact AI message construction;
-- session preview one-time consumption and user binding;
-- explicit proof that `task_log.output` and `task_adhoc.customdata` do not enter cron diagnostic facts.
-
-## Continuous integration
-
-`.github/workflows/ci.yml` runs Moodle Plugin CI with the `local_ai_bridge` dependency, PHP linting, Moodle validation,
-Moodle Code Checker, PHPUnit, and `EduardoKrausME/moodle-plugin-validate`.
-
-## License
-
-GNU GPL v3 or later.
