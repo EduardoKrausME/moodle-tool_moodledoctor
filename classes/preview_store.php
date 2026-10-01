@@ -29,13 +29,13 @@ namespace tool_moodledoctor;
  */
 class preview_store {
     /**
-    * Preview lifetime in seconds.
-    */
+     * Preview lifetime in seconds.
+     */
     private const TTL = 900;
 
     /**
-    * Maximum previews kept per session.
-    */
+     * Maximum previews kept per session.
+     */
     private const MAX_PREVIEWS = 5;
 
     /**

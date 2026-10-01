@@ -36,13 +36,13 @@ use Throwable;
  */
 class diagnostic_collector {
     /**
-    * Maximum failed task log rows included.
-    */
+     * Maximum failed task log rows included.
+     */
     private const MAX_TASK_FAILURES = 25;
 
     /**
-    * Maximum problematic scheduled/adhoc task rows included.
-    */
+     * Maximum problematic scheduled/adhoc task rows included.
+     */
     private const MAX_TASK_PROBLEMS = 50;
 
     /**
