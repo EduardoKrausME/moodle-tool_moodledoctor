@@ -28,6 +28,8 @@ use advanced_testcase;
 
 /**
  * Tests exact preview message construction without calling a provider.
+ *
+ * @covers \\tool_moodledoctor\\ai_service
  */
 final class ai_service_test extends advanced_testcase {
     /**
