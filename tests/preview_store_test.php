@@ -28,6 +28,8 @@ use advanced_testcase;
 
 /**
  * Tests session-only, one-time preview behaviour.
+ *
+ * @covers \\tool_moodledoctor\\preview_store
  */
 final class preview_store_test extends advanced_testcase {
     /**
