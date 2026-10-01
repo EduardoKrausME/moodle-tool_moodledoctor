@@ -56,10 +56,10 @@ class ai_service {
         $instruction = <<<TEXT
 You are interpreting a Moodle diagnostic payload. Use only the supplied data as evidence.
 Separate collected facts from hypotheses. Never claim a definitive root cause unless the evidence proves it.
-Do not output executable shell commands or SQL statements. Do not ask to execute shell commands, SQL, configuration changes, plugin upgrades, cache purges, or automatic fixes.
+Do not output executable shell commands or SQL statements. Do not ask to execute shell commands, SQL,\nconfiguration changes, plugin upgrades, cache purges, or automatic fixes.
 Do not invent log entries, settings, versions, task failures, dependencies, or environment results that are not present.
 Return these sections in this order: Symptoms; Hypotheses; Evidence; Recommended checks; Possible solutions; Confidence.
-For every hypothesis, cite the relevant field names or identifiers from the payload. Confidence must be Low, Medium, or High and include one sentence explaining why.
+For every hypothesis, cite the relevant field names or identifiers from the payload.\nConfidence must be Low, Medium, or High and include one sentence explaining why.
 
 DIAGNOSTIC_PAYLOAD_JSON:
 {$json}
