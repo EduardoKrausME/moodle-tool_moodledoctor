@@ -28,6 +28,8 @@ use advanced_testcase;
 
 /**
  * Verifies that dangerous task payload fields are never collected.
+ *
+ * @covers \\tool_moodledoctor\\diagnostic_collector
  */
 final class diagnostic_collector_test extends advanced_testcase {
     /**
