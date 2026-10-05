@@ -361,7 +361,6 @@ class diagnostic_collector {
         return $values;
     }
 
-
     /**
      * Cache store summary without store configuration values.
      *
