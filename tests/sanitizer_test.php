@@ -64,6 +64,20 @@ final class sanitizer_test extends advanced_testcase {
             'query sesskey' => ['https://example.test/?sesskey=querysecret&x=1', 'querysecret'],
             'cli password' => ['tool --password hunter2 --verbose', 'hunter2'],
             'cli token' => ['tool --token=tok_secret --verbose', 'tok_secret'],
+            'php array' => ["'dbpass' => 'ArrPw'", 'ArrPw'],
+            'php bracket array' => ["['dbpass'] => 'ArrayPw'", 'ArrayPw'],
+            'print_r array' => ['[dbpass] => PrintRPw', 'PrintRPw'],
+            'moodle salt' => ["\$CFG->passwordsaltmain = 'SaltValue123';", 'SaltValue123'],
+            'moodle smtp' => ["\$CFG->smtppass = 'SmtpPw';", 'SmtpPw'],
+            'moodle database username' => ["\$CFG->dbuser = 'DatabaseLogin';", 'DatabaseLogin'],
+            'custom private key' => ["'custom_private_key' => 'PrivateKeyValue'", 'PrivateKeyValue'],
+            'private key pem' => [
+                "-----BEGIN RSA PRIVATE KEY-----\nPEMsecretValue\n-----END RSA PRIVATE KEY-----",
+                'PEMsecretValue',
+            ],
+            'aws access key' => ['AWS access AKIA1234567890123456', 'AKIA1234567890123456'],
+            'google api key' => ['Google AIza12345678901234567890123456789012345',
+                'AIza12345678901234567890123456789012345'],
         ];
     }
 
@@ -87,7 +101,9 @@ final class sanitizer_test extends advanced_testcase {
      * @return void
      */
     public function test_sanitization_is_idempotent(): void {
-        $input = "Authorization: Bearer abc123\nCookie: MoodleSession=session123\npassword=secret";
+        $input = "Authorization: Bearer abc123\nCookie: MoodleSession=session123\npassword=secret\n" .
+            "'dbpass' => 'ArraySecret'\n[dbpass] => PrintSecret\n" .
+            "-----BEGIN PRIVATE KEY-----\nPEMsecret\n-----END PRIVATE KEY-----";
         $once = sanitizer::sanitize_text($input);
         $twice = sanitizer::sanitize_text($once);
         $this->assertSame($once, $twice);
@@ -109,12 +125,15 @@ final class sanitizer_test extends advanced_testcase {
             'object' => (object)[
                 'dbpass' => 'four',
                 'token' => 'five',
+                'passwordsaltmain' => 'saltvalue',
+                'smtppass' => 'smtpvalue',
+                'integration_private_key' => 'keyvalue',
             ],
         ];
 
         $clean = sanitizer::sanitize($input);
         $encoded = json_encode($clean);
-        foreach (['one', 'two', 'three', 'four', 'five'] as $secret) {
+        foreach (['one', 'two', 'three', 'four', 'five', 'saltvalue', 'smtpvalue', 'keyvalue'] as $secret) {
             $this->assertStringNotContainsString($secret, $encoded);
         }
         $this->assertSame('kept', $clean['nested']['safe']);

@@ -108,17 +108,39 @@ class sanitizer {
             $text
         ) ?? $text;
 
-        // Common key/value forms: password=x, "token":"x", dbpass => 'x', api_key: x, etc.
-        $keys = implode('|', [
-            'password', 'passwd', 'passphrase', 'dbpass', 'dbpassword',
-            'token', 'access[_-]?token', 'refresh[_-]?token', 'auth[_-]?token',
-            'api[_-]?key', 'apikey', 'secret', 'client[_-]?secret',
-            'sesskey', 'sessionid', 'session[_-]?id', 'moodlesession', 'phpsessid',
-            'authorization', 'cookie', 'cookies',
-        ]);
+        // Private key blocks have no recognisable key/value prefix.
+        $text = preg_replace(
+            '/-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z0-9 ]*PRIVATE KEY-----/i',
+            self::REDACTED,
+            $text
+        ) ?? $text;
+
+        // Standalone cloud tokens may appear in stack traces.
+        $text = preg_replace(
+            '/\b(?:AKIA|ASIA)[A-Z0-9]{16}\b/',
+            self::REDACTED,
+            $text
+        ) ?? $text;
+        $text = preg_replace(
+            '/\bAIza[A-Za-z0-9_-]{35}\b/',
+            self::REDACTED,
+            $text
+        ) ?? $text;
+        $text = preg_replace(
+            '/\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|xox[baprs]-[A-Za-z0-9-]{10,})\b/',
+            self::REDACTED,
+            $text
+        ) ?? $text;
+
+        // Common key/value forms, including PHP arrays, print_r and Moodle config.php.
+        // Match sensitive suffixes, e.g. smtppass and custom_private_key.
+        $keys = '(?:[a-z0-9_-]*(?:password|passwd|passphrase|pass|pwd|salt|key(?:[_-]?id)?|' .
+            'token|secret|session[_-]?id|credentials?)|passwordsaltmain|dbuser|smtpuser|' .
+            'authorization|cookie|cookies|moodlesession|phpsessid|sesskey)';
 
         $text = preg_replace_callback(
-            '/(["\']?\b(?:' . $keys . ')\b["\']?\s*(?:=|:|=>)\s*)("[^"\r\n]*"|\'[^\'\r\n]*\'|[^\s,;\r\n]+)/i',
+            '/((?:\$[A-Za-z_][A-Za-z0-9_]*->)?(?:\[\s*["\']?|["\']?)\b' . $keys .
+            '\b(?:["\']?\s*\]|["\']?)\s*(?:=>|=|:)\s*)("[^"\r\n]*"|\'[^\'\r\n]*\'|[^\s,;\r\n]+)/i',
             static function (array $matches): string {
                 $value = $matches[2];
                 $first = $value[0] ?? '';
@@ -167,14 +189,11 @@ class sanitizer {
      */
     private static function is_secret_key(string $key): bool {
         $normalized = strtolower(preg_replace('/[^a-z0-9]/i', '', $key) ?? $key);
-        $secretkeys = [
-            'password', 'passwd', 'passphrase', 'dbpass', 'dbpassword',
-            'token', 'accesstoken', 'refreshtoken', 'authtoken',
-            'apikey', 'secret', 'clientsecret', 'sesskey',
-            'sessionid', 'moodlesession', 'phpsessid',
-            'authorization', 'cookie', 'cookies',
-        ];
-
-        return in_array($normalized, $secretkeys, true);
+        // Normalized structured keys share the same suffix-based protection.
+        return (bool)preg_match(
+            '/(?:password|passwd|passphrase|pass|pwd|salt|key(?:id)?|token|secret|sessionid|credentials?)$/' .
+            '|^(?:passwordsaltmain|dbuser|smtpuser|authorization|cookie|cookies|moodlesession|phpsessid|sesskey)$/',
+            $normalized
+        );
     }
 }

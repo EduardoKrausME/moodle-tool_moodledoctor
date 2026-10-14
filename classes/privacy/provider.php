@@ -26,13 +26,19 @@ namespace tool_moodledoctor\privacy;
 
 use core_privacy\local\metadata\collection;
 use core_privacy\local\metadata\provider as metadata_provider;
+use core_privacy\local\request\approved_contextlist;
+use core_privacy\local\request\approved_userlist;
+use core_privacy\local\request\contextlist;
+use core_privacy\local\request\core_userlist_provider;
+use core_privacy\local\request\plugin\provider as request_provider;
+use core_privacy\local\request\userlist;
 
 /**
  * Describes data which may be routed to an external AI provider by local_ai_bridge.
  *
  * Moodle Doctor does not persist these payloads in its own database tables.
  */
-class provider implements metadata_provider {
+class provider implements metadata_provider, request_provider, core_userlist_provider {
     /**
      * Describe externally processed diagnostic data.
      *
@@ -50,4 +56,60 @@ class provider implements metadata_provider {
         );
         return $collection;
     }
+
+    /**
+     * No user contexts contain data persisted by Moodle Doctor.
+     *
+     * @param int $userid User identifier.
+     * @return contextlist Empty list of contexts.
+     */
+    public static function get_contexts_for_userid(int $userid): contextlist {
+        return new contextlist();
+    }
+
+    /**
+     * The plugin does not store users in a context.
+     *
+     * @param userlist $userlist Users to populate.
+     * @return void
+     */
+    public static function get_users_in_context(userlist $userlist): void {
+    }
+
+    /**
+     * No user data exists to export from this plugin.
+     *
+     * @param approved_contextlist $contextlist Approved contexts.
+     * @return void
+     */
+    public static function export_user_data(approved_contextlist $contextlist): void {
+    }
+
+    /**
+     * No persisted user data exists to delete.
+     *
+     * @param \context $context Context to clear.
+     * @return void
+     */
+    public static function delete_data_for_all_users_in_context(\context $context): void {
+    }
+
+    /**
+     * No persisted user data exists to delete.
+     *
+     * @param approved_contextlist $contextlist Approved contexts.
+     * @return void
+     */
+    public static function delete_data_for_user(approved_contextlist $contextlist): void {
+    }
+
+    /**
+     * No persisted user data exists to delete.
+     *
+     * @param approved_userlist $userlist Approved users.
+     * @return void
+     */
+    public static function delete_data_for_users(approved_userlist $userlist): void {
+    }
+
 }
