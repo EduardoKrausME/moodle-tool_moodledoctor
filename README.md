@@ -62,6 +62,18 @@ No sanitizer can prove that an arbitrary unknown secret format is safe. Administ
 credentials. The safest design is still to avoid collecting sensitive fields in the first place, which is why the
 deterministic collectors use allowlists and omit known high-risk fields.
 
+### Installing from a release ZIP
+
+Download the `tool_moodledoctor_<version>.zip` asset from a GitHub release, then use
+Site administration > Plugins > Install plugins. The archive must have `moodledoctor/` as its
+single root folder. GitHub's automatically generated "Source code (zip)" archive uses a
+repository-and-commit directory name and cannot be uploaded to Moodle's plugin installer.
+
+The sanitizer additionally removes credentials in PHP arrays and print_r, Moodle config
+passwords and salts, PEM private keys, and recognisable cloud tokens. Email addresses,
+hostnames, IP addresses and file paths are intentionally not scrubbed because they may be
+necessary for diagnostics; review the exact preview and remove sensitive context before sending.
+
 ## Preview before AI
 
 AI requests use a two-step flow:
