@@ -191,8 +191,9 @@ class sanitizer {
         $normalized = strtolower(preg_replace('/[^a-z0-9]/i', '', $key) ?? $key);
         // Normalized structured keys share the same suffix-based protection.
         return (bool)preg_match(
-            '/(?:password|passwd|passphrase|pass|pwd|salt|key(?:id)?|token|secret|sessionid|credentials?)$/' .
-            '|^(?:passwordsaltmain|dbuser|smtpuser|authorization|cookie|cookies|moodlesession|phpsessid|sesskey)$/',
+            '/^(?:[a-z0-9]*(?:password|passwd|passphrase|pass|pwd|salt|key(?:id)?|token|' .
+            'secret|sessionid|credentials?)|passwordsaltmain|dbuser|smtpuser|authorization|' .
+            'cookie|cookies|moodlesession|phpsessid|sesskey)$/',
             $normalized
         );
     }
