@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+$plugin->version = 2026101500;
+$plugin->release = '1.1.3';
 $plugin->component = 'tool_moodledoctor';
-$plugin->version = 2026101200;
-$plugin->release = '1.1.2';
 $plugin->requires = 2024100700;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [
