@@ -24,7 +24,6 @@
 
 namespace tool_moodledoctor\form;
 
-use core_text;
 use moodleform;
 use tool_moodledoctor\sanitizer;
 
@@ -73,7 +72,7 @@ class error_form extends moodleform {
     public function validation($data, $files): array {
         $errors = parent::validation($data, $files);
         foreach (['errorinput', 'additionalcontext'] as $field) {
-            if (isset($data[$field]) && core_text::strlen((string)$data[$field]) > sanitizer::MAX_MANUAL_LENGTH) {
+            if (isset($data[$field]) && strlen((string)$data[$field]) > sanitizer::MAX_MANUAL_LENGTH) {
                 $errors[$field] = get_string('manualtoolarge', 'tool_moodledoctor', sanitizer::MAX_MANUAL_LENGTH);
             }
         }

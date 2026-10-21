@@ -24,7 +24,6 @@
 
 namespace tool_moodledoctor\form;
 
-use core_text;
 use moodleform;
 use tool_moodledoctor\sanitizer;
 
@@ -63,7 +62,7 @@ class checklist_form extends moodleform {
      */
     public function validation($data, $files): array {
         $errors = parent::validation($data, $files);
-        if (isset($data['question']) && core_text::strlen((string)$data['question']) > sanitizer::MAX_MANUAL_LENGTH) {
+        if (isset($data['question']) && strlen((string)$data['question']) > sanitizer::MAX_MANUAL_LENGTH) {
             $errors['question'] = get_string('manualtoolarge', 'tool_moodledoctor', sanitizer::MAX_MANUAL_LENGTH);
         }
         return $errors;

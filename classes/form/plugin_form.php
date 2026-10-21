@@ -24,7 +24,6 @@
 
 namespace tool_moodledoctor\form;
 
-use core_text;
 use moodleform;
 use tool_moodledoctor\sanitizer;
 
@@ -73,7 +72,7 @@ class plugin_form extends moodleform {
         if (!empty($data['component']) && !array_key_exists($data['component'], $choices)) {
             $errors['component'] = get_string('unknownplugin', 'tool_moodledoctor');
         }
-        if (isset($data['plugincontext']) && core_text::strlen((string)$data['plugincontext']) > sanitizer::MAX_MANUAL_LENGTH) {
+        if (isset($data['plugincontext']) && strlen((string)$data['plugincontext']) > sanitizer::MAX_MANUAL_LENGTH) {
             $errors['plugincontext'] = get_string('manualtoolarge', 'tool_moodledoctor', sanitizer::MAX_MANUAL_LENGTH);
         }
         return $errors;
