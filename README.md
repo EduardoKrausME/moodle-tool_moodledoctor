@@ -7,16 +7,16 @@ uses AI only to interpret those facts. It never applies fixes automatically.
 
 Moodle Doctor provides six workflows:
 
-1. **Health check** — Moodle/PHP/database runtime details, Moodle environment checks, Check API summaries, cron state,
+1. **Health check** - Moodle/PHP/database runtime details, Moodle environment checks, Check API summaries, cron state,
    task failures, installed plugins/dependencies, selected safe configuration, and a cache-store summary.
-2. **Explain error** — accepts an administrator-pasted error or stack trace, sanitizes it, and shows the exact AI-bound
+2. **Explain error** - accepts an administrator-pasted error or stack trace, sanitizes it, and shows the exact AI-bound
    message before anything is sent.
-3. **Diagnose cron** — checks `tool_task/lastcronstart`, expected cron frequency, delayed scheduled tasks, problematic
+3. **Diagnose cron** - checks `tool_task/lastcronstart`, expected cron frequency, delayed scheduled tasks, problematic
    adhoc tasks, and recent failed task runs.
-4. **Diagnose plugin** — compares the component registered by Moodle with the files on disk and shows declared plugin
+4. **Diagnose plugin** - compares the component registered by Moodle with the files on disk and shows declared plugin
    dependencies, dependency satisfaction, status, enabled state, and recent failed task metadata.
-5. **Diagnose environment** — Moodle environment checks plus status/security/performance Check API summaries.
-6. **Investigation checklist** — builds a concise system context and asks the AI for a structured investigation
+5. **Diagnose environment** - Moodle environment checks plus status/security/performance Check API summaries.
+6. **Investigation checklist** - builds a concise system context and asks the AI for a structured investigation
    checklist.
 
 The deterministic facts are always displayed separately from AI interpretation.
